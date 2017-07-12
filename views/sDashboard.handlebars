@@ -1,0 +1,74 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', []);
+
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        var studentID = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/enrolledin", {params:{"creator": studentID}}).then(function (response) {
+            $scope.myData = response.data;
+        });
+    });
+</script>
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+
+<h2 class = "page-header" id="postUserName"></h2>
+<h3>Welcome to your dashboard</h3><br>
+<p>What would you like to do today?</p><br>
+
+<a onclick="joinClassDiv();signUp() " class="dashboard">Join a Class</a><br>
+<a onclick="viewClassDiv()" class="dashboard">View Classes Enrolled In</a><br>
+<a onclick="viewTutorialDiv()" class="dashboard">View Tutorials</a><br>
+<a onclick="viewAssignmentsDiv()" class="dashboard">View Assignments</a><br>
+
+<div id ="joinClass">
+    <br>   
+    <p>Input the Class ID as given to you by your professor</p>
+    <form method="post" action="/classes/enroll">
+        <div class="form-group">
+            <label>Module ID</label>
+            <input type="text" class="form-control" placeholder="e.g. 595a155c7840e631c469f01e" name="modulecode">
+        </div>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" placeholder="e.g. JSmith" name="username" id="classForm" >
+        </div>
+
+
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+</div>
+
+<div id ="viewClass">
+       <div ng-app="customInterpolationApp" ng-controller="DemoController as demo">
+        <table style="width:100%" class="table" id="tableCreateUsers">
+            <tr>
+                <th>Professor</th>
+                <th>Class Name</th>
+                <th>Class Code</th>
+                <th>Class ID</th>
+            </tr>
+            <tr ng-repeat="x in myData">
+                <td>//x.matching[0].creator//</td>
+                <td>//x.matching[0].className//</td>
+                <td>//x.matching[0].classCode//</td>
+                <td>//x.matching[0]._id //</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<div id="viewTutorials">
+    <p>View the tutorials enrolled in, coming soon.</p>
+</div>
+
+<div id="viewAssignments">
+    <p>View assignments due, coming soon.</p>
+</div>

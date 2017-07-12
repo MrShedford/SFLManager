@@ -1,0 +1,82 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', []);
+
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {params:{"creator": professor}}).then(function (response) {
+            $scope.myData = response.data;
+        });
+    });
+</script>
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+
+<h2 id="postUserName" class = "page-header">Dashboard</h2>
+<h3>Welcome to your dashboard</h3><br>
+<p>What would you like to do today?</p><br>
+
+<a onclick="showSDiv();moduleProfName();" class="dashboard">Create Class</a><br>
+<a onclick="showManageDiv()" class="dashboard">View Classes</a><br>
+<a onclick="showTutorialDiv()" class="dashboard">Manage Tutorial Groups</a><br>
+<a onclick="showRepoDiv()" class="dashboard">Manage Repositories</a><br>
+
+
+<!-- Create Student Zone -->
+<div id ="newStudentsDiv">
+    <p>Enter Class Details below:</p>
+    <form method="post" action="/classes/register">
+        <div class="form-group">
+            <label>Module Code</label>
+            <input type="text" class="form-control" placeholder="e.g. CS230" name="modulecode">
+        </div>
+        <div class="form-group">
+            <label>Module Name</label>
+            <input type="text" class="form-control" placeholder="e.g. Web Infromation Processing" name="modulename">
+        </div>
+        <div class="form-group">
+            <label>Professor</label>
+            <input type="text" class="form-control" placeholder="e.g. Prof. John Keating" name="moduleprofessor" id="moduleprofessor">
+        </div>
+           <div class="form-group">
+            <label>Key for Students</label>
+            <input type="text" class="form-control" placeholder="e.g. CS230JKMU" name="modulekey" id="modulekey">
+        </div>
+        
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+
+</div>
+
+<div id ="manageStudentDiv">
+    <div ng-app="customInterpolationApp" ng-controller="DemoController as demo">
+        <table style="width:100%" class="table" id="tableCreateUsers">
+            <tr>
+                <th>Professor</th>
+                <th>Module Name</th>
+                <th>Module Code</th>
+                <th>Module Key</th>
+            </tr>
+            <tr ng-repeat="x in myData">
+                <td>//x.creator//</td>
+                <td>//x.className//</td>
+                <td>//x.classCode//</td>
+                <td>//x.classKey //</td>
+            </tr>
+        </table>
+    </div>
+</div> 
+
+<div id="manageTutorialDiv">
+    <p>Manage Tutorial Groups coming soon</p>
+</div>
+
+<div id ="manageRepoDiv">
+    <p>Manage Repository Coming soon</p>
+</div>
