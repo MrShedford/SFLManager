@@ -1,18 +1,175 @@
-<h2>Functionality Playground</h2>
-<h3>Time to test file uploads</h3>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', []);
 
-<form method="post" action="/classes/test"  encType="multipart/form-data">
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" class="form-control" name="username" placeholder="Admin_S" id="username">
-    </div>
-    <div class="form-group">
-        <label>Module</label>
-        <input type="text" class="form-control" name="module" placeholder="Where you want the file to go" id="module">
-    </div>
-    <div class="form-group">
-        <label>File</label>
-        <input type="file" class="form-control" name="file" placeholder="assignment.txt">
-    </div>
-    <button type="submit" class="btn btn-default" onclick="">Submit</button>
-</form>
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+    //Same as above because I need a second controller just to get the module names for the drop down form menu
+    customInterpolationApp.controller('uploadingAssignment', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+    //This is used for returning the assignments the teacher has created
+    customInterpolationApp.controller('returnAssignment', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/returnAssignments", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.assignments = response.data;
+        });
+    });
+
+</script>
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+  <div ng-app="customInterpolationApp">
+    <h2 id="postUserName" class="align">Dashboard</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable-panel" id="scrolly">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a href="#tab_default_1" data-toggle="tab">
+							Create a Class </a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_2" data-toggle="tab">
+							View Classes </a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_3" data-toggle="tab">
+							Create Assignment </a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_4" data-toggle="tab">
+							View Assignments </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1">
+                            <p class="align">Enter Class Details below:</p>
+                            <form method="post" action="/classes/register">
+                                <div class="form-group">
+                                    <label>Module Code</label>
+                                    <input type="text" class="form-control" placeholder="e.g. CS230" name="modulecode">
+                                </div>
+                                <div class="form-group">
+                                    <label>Module Name</label>
+                                    <input type="text" class="form-control" placeholder="e.g. Web Infromation Processing" name="modulename">
+                                </div>
+                                <div class="form-group">
+                                    <!--<label class="hiding">Professor</label> -->
+                                    <input type="text" class="form-control" placeholder="e.g. Prof. John Keating" name="moduleprofessor" id="moduleprofessor">
+                                </div>
+                                <div class="form-group">
+                                    <label>Key for Students</label>
+                                    <input type="text" class="form-control" placeholder="e.g. CS230JKMU" name="modulekey" id="modulekey">
+                                </div>
+
+                                <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+
+                        </div>
+                        <div class="tab-pane" id="tab_default_2">
+                            <div ng-controller="DemoController as demo">
+                                <table  style="width:auto" class="table">
+                                    <tr>
+                                        <th>Professor</th>
+                                        <th>Module Name</th>
+                                        <th>Module Code</th>
+                                        <th>Module Key</th>
+                                    </tr>
+                                    <tr ng-repeat="x in myData">
+                                        <td>//x.creator//</td>
+                                        <td>//x.className//</td>
+                                        <td>//x.classCode//</td>
+                                        <td>//x.classKey //</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_default_3" ng-controller="uploadingAssignment">
+                                <div ng-controller="uploadingAssignment">
+                                    <form method="post" action="/classes/test" encType="multipart/form-data">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" name="username2" placeholder="Admin_S" id="username2">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Module</label><br>
+                                            <select name="module" class="form-control">
+                            <option ng-repeat="x in myData" >//x.classCode//</option>
+                        </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Title</label><br>
+                                            <input type="text" class="form-control" name="title" placeholder="Annotate this piece of text">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label><br>
+                                            <textarea rows="4" cols="50" name="description" class="form-control">
+                            </textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text File (if needed)</label>
+                                            <input type="file" class="form-control" name="file" placeholder="assignment.txt" id="files">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="form-control" id="sean">Send Text</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text Area</label><br>
+                                            <textarea rows="4" cols="80" id="name" name="assignmentText"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </form>
+                                </div>
+                        </div>
+                         <div class="tab-pane" id="tab_default_4">
+                                   <div ng-controller="returnAssignment">
+                                    <table style="width:100%" class="table">
+                                        <tr>
+                                            <th>Module</th>
+                                            <th>Professor</th>
+                                            <th>Title</th>
+                                            <th>Text</th>
+                                        </tr>
+                                        <tr ng-repeat="x in assignments">
+                                            <td>//x.module//</td>
+                                            <td>//x.creator//</td>
+                                            <td>//x.title//</td>
+                                            <td>//x.text//</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>

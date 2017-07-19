@@ -13,22 +13,40 @@ var User = require('../models/user');
 var Student = require('../models/students');
 var ClassStore = require('../models/classes');
 var Enrolled = require('../models/enrolled');
+var Assignment = require('../models/assignments');
 
 
-//This handles file uploading from Teachers
-router.post('/test', function (req, res) {
+//THIS IS NOT USED ANYMORE
+/*
+router.post('/uploadAssignment', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
 
 
     let sampleFile = req.files.file;
     var modulename = req.body.module;
-    var username = req.body.username;
+    var username2 = req.body.username2;
+    var title = req.body.title;
+    var description = req.body.description;
+    var filename = req.files.file.name;
 
+    var date = new Date();
 
-    var location = 'storage/' + username + '/';
+    req.checkBody('modulename', 'Module name is required').notEmpty();
+    req.checkBody('username2', 'Username is required').notEmpty();
+    req.checkBody('title', 'Title is required').notEmpty();
+    req.checkBody('description', 'Description is required').notEmpty();
+    req.checkBody('filename', 'Uploading a file is required').notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+        console.log(errors);
+    }
+
+    var location = 'storage/' + username2 + '/';
     var location2 = location + modulename + '/';
-    mkdirp(path.join(process.cwd(), location2), function(err){
+    mkdirp(path.join(process.cwd(), location2), function (err) {
         if (err) {
             return console.error(err);
         }
@@ -38,9 +56,75 @@ router.post('/test', function (req, res) {
     sampleFile.mv(location2 + sampleFile.name, function (err) {
         if (err)
             return res.status(500).send(err);
-
-        res.send('File uploaded!');
     });
+
+    var newAssignment = new Assignment({
+        creator: username2,
+        module: modulename,
+        title: title,
+        description: description,
+        date: date,
+        filename: filename
+    });
+
+    var x = Assignment.saveAssignmentInfo(newAssignment);
+    x.then((user) => {
+            console.log(user);
+        })
+        .catch((err) => {
+            res.send("error found");
+        });
+
+    req.flash('success_msg', 'Successfully uploaded assignment');
+
+    res.redirect('/users/dashboard');
+});
+*/
+
+router.post('/test', function (req, res) {
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
+
+    var modulename = req.body.module;
+    var username2 = req.body.username2;
+    var title = req.body.title;
+    var description = req.body.description;
+    var text = req.body.assignmentText;
+    var date = new Date();
+
+    req.checkBody('modulename', 'Module name is required').notEmpty();
+    req.checkBody('username2', 'Username is required').notEmpty();
+    req.checkBody('title', 'Title is required').notEmpty();
+    req.checkBody('description', 'Description is required').notEmpty();
+    req.checkBody('text', 'Text is required').notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+        console.log(errors);
+    }
+
+    var newAssignment = new Assignment({
+        creator: username2,
+        module: modulename,
+        title: title,
+        description: description,
+        date: date,
+        text: text
+    });
+
+    var x = Assignment.saveAssignmentInfo(newAssignment);
+    x.then((user) => {
+            console.log(user);
+        })
+        .catch((err) => {
+            res.send("error found");
+        });
+
+    req.flash('success_msg', 'Successfully uploaded assignment');
+
+    res.redirect('/users/dashboard');   
+        
 });
 
 
@@ -84,16 +168,29 @@ router.post('/register', function (req, res) {
 
 //Returning Classes that the teacher has created
 router.get('/store', function (req, res) {
-    var creator = req.param('creator');
-    //alert(creator);
+    var creator = req.query.creator;
     var query = ClassStore.findByCreator(creator);
 
     query.then((user) => {
-        res.json(user);
-    })
+            res.json(user);
+        })
         .catch((err) => {
-        res.send("error found");
-    });
+            res.send("error found");
+        });
+});
+
+//Returning Assignments that the teacher has uploaded back to the Teachers Dashboard
+router.get('/returnAssignments', function (req, res) {
+    var creator = req.query.creator;
+    var query = Assignment.findByCreator(creator);
+
+    query.then((user) => {
+            res.json(user);
+        })
+        .catch((err) => {
+            res.send("error found");
+        });
+
 });
 
 //Student joins a class
@@ -137,14 +234,14 @@ router.post('/enroll', function (req, res) {
 
 
 router.get('/enrolledin', function (req, res) {
-    var student = req.param('creator');
+    var student = req.query.creator;
     var isEnrolled = Enrolled.findDetails(); //Enrolled.studentIsTaking(student);
     isEnrolled.then((user) => {
-        res.json(user);
-    })
+            res.json(user);
+        })
         .catch((err) => {
-        res.send("error found");
-    });
+            res.send("error found");
+        });
 
 
 });
