@@ -1,6 +1,3 @@
-var generated = false; //will check to see if the table has been generated or not
-var deleteRow = 0;
-
 $(document).ready(function () {
     var fileInput = $('#files');
     var uploadButton = $('#sean');
@@ -22,6 +19,16 @@ $(document).ready(function () {
         }
     });
 
+    $('#jBold').click(function () {
+        var clauseNumber = document.getElementById('keypadDisplay').value;
+        var firstSpan = "<span class=subscript>";
+        var secondSpan = "</span>";
+
+        var newClause = firstSpan.concat(clauseNumber, secondSpan);
+
+        document.execCommand('insertHTML', true, newClause);
+    });
+
     function processFile(e) {
         var file = e.target.result,
             results;
@@ -31,6 +38,130 @@ $(document).ready(function () {
             //$('#name').val(results[1]);
         }
     }
+
+    var keypad_bracket_l = "(",
+        keypad_bracket_r = ")",
+        keypad_value = "";
+
+    function keypadAddDigit(v) {
+        keypad_value += v;
+        document.getElementById('keypadDisplay').value =
+            keypad_bracket_l + keypad_value + keypad_bracket_r;
+    }
+
+    function keypadClear() {
+        keypad_value = "";
+        document.getElementById('keypadDisplay').value =
+            keypad_bracket_l + keypad_value + keypad_bracket_r;
+    }
+
+    function keypadRoundBrackets() {
+        keypad_bracket_l = "(";
+        keypad_bracket_r = ")";
+        document.getElementById('keypadDisplay').value =
+            keypad_bracket_l + keypad_value + keypad_bracket_r;
+    }
+
+    function keypadSquareBrackets() {
+        keypad_bracket_l = "[";
+        keypad_bracket_r = "]";
+        document.getElementById('keypadDisplay').value =
+            keypad_bracket_l + keypad_value + keypad_bracket_r;
+    }
+
+
+    function addKeypadEvent(element, evnt, funct) {
+        if (element.attachEvent)
+            return element.attachEvent('on' + evnt, funct);
+        else
+            return element.addEventListener(evnt, funct, false);
+    }
+
+    //
+    // add the event handlers to the keypad button elements
+    //
+    addKeypadEvent(document.getElementById('keypad_x'), 'click', function () {
+        keypadAddDigit('x');
+    });
+    addKeypadEvent(document.getElementById('keypad_v'), 'click', function () {
+        keypadAddDigit('v');
+    });
+    addKeypadEvent(document.getElementById('keypad_i'), 'click', function () {
+        keypadAddDigit('i');
+    });
+    addKeypadEvent(document.getElementById('keypad_9'), 'click', function () {
+        keypadAddDigit(9);
+    });
+    addKeypadEvent(document.getElementById('keypad_8'), 'click', function () {
+        keypadAddDigit(8);
+    });
+    addKeypadEvent(document.getElementById('keypad_7'), 'click', function () {
+        keypadAddDigit(7);
+    });
+    addKeypadEvent(document.getElementById('keypad_6'), 'click', function () {
+        keypadAddDigit(6);
+    });
+    addKeypadEvent(document.getElementById('keypad_5'), 'click', function () {
+        keypadAddDigit(5);
+    });
+    addKeypadEvent(document.getElementById('keypad_4'), 'click', function () {
+        keypadAddDigit(4);
+    });
+    addKeypadEvent(document.getElementById('keypad_3'), 'click', function () {
+        keypadAddDigit(3);
+    });
+    addKeypadEvent(document.getElementById('keypad_2'), 'click', function () {
+        keypadAddDigit(2);
+    });
+    addKeypadEvent(document.getElementById('keypad_1'), 'click', function () {
+        keypadAddDigit(1);
+    });
+    addKeypadEvent(document.getElementById('keypad_0'), 'click', function () {
+        keypadAddDigit(0);
+    });
+    addKeypadEvent(document.getElementById('keypad_r'), 'click', function () {
+        keypadRoundBrackets();
+    });
+    addKeypadEvent(document.getElementById('keypad_s'), 'click', function () {
+        keypadSquareBrackets();
+    });
+    addKeypadEvent(document.getElementById('keypad_clear'), 'click', function () {
+        keypadClear();
+    });
+
+
+
+    //This is for saving the updated assignment with clauses back to the server
+    $('#saveClause').click(function () {
+        var username = document.getElementById('postUserName').innerHTML;
+        var clauseTitle = document.getElementById('modalTitle').innerHTML;
+        var clauseDescription = document.getElementById('modalDescription').innerHTML;
+        var clauseText = document.getElementById('modalText').innerHTML;
+        
+        $.ajax({
+            url: "http://localhost:3000/classes/updateAssignment",
+            type: "post",
+            dataType: "json",
+            data: {
+                username: username,
+                title: clauseTitle,
+                description: clauseDescription,
+                text: clauseText
+            },
+            cache: false,
+            complete: function () {
+              console.log("complete");  
+            }, 
+            success: function () {
+                alert("Assignment Updated");
+            },
+            error: function () {
+                console.log("Process Error");
+            }
+
+        });
+        alert("Assignment Updated");
+    });
 });
 
 // START : Loading username to the dashboard after login 
@@ -48,186 +179,13 @@ function usernameOnLoad() {
 // END 
 
 
-var studentAccountID = 1000;
-/*
-function generateTable() {
-    var students = document.getElementById("usr").value;//number of accounts to be created
-        deleteRow += students;
-    var module = document.getElementById("mod").value;í
-    alert("You have selected " + students + " student accounts to be created."); //Tells them how many accounts are to be created
-    var table = document.getElementById("tableCreateUsers");
-    for (var i = 0; i < students; i++) {
+function modalClauses(x) {
+    var index = x.rowIndex;
+    var table = document.getElementById('assignmentsTable');
+    //alert(table.rows[index].cells[3].innerText);
+    var contentArray = table.rows[index];
 
-        var row = table.insertRow(1);
-
-        var s_surname = row.insertCell(0).append(document.createElement("input"));
-        var s_firstname = row.insertCell(1).append(document.createElement("input"));
-        var s_number = row.insertCell(2).append(document.createElement("input"));
-        var s_tutorgroup = row.insertCell(3).append(document.createElement("input"));
-        var s_username = row.insertCell(4);
-        var s_password = row.insertCell(5);
-
-        s_password.innerHTML = Math.random().toString(36).slice(-8); 
-        s_username.innerHTML = module + studentAccountID++;
-    }
-    generated = true;
-
-}*/
-
-
-
-// START : teachers dashboard functions
-function showSDiv() {
-    var a = document.getElementById("newStudentsDiv");
-    var b = document.getElementById("manageStudentDiv");
-    var c = document.getElementById("manageTutorialDiv");
-    var d = document.getElementById("manageRepoDiv");
-    a.style.display = 'block';
-    b.style.display = 'none';
-    c.style.display = 'none';
-    d.style.display = 'none';
-
-}
-
-function showManageDiv() {
-    var a = document.getElementById("newStudentsDiv");
-    var b = document.getElementById("manageStudentDiv");
-    var c = document.getElementById("manageTutorialDiv");
-    var d = document.getElementById("manageRepoDiv");
-    a.style.display = 'none';
-    b.style.display = 'block';
-    c.style.display = 'none';
-    d.style.display = 'none';
-
-}
-
-function showTutorialDiv() {
-    var a = document.getElementById("newStudentsDiv");
-    var b = document.getElementById("manageStudentDiv");
-    var c = document.getElementById("manageTutorialDiv");
-    var d = document.getElementById("manageRepoDiv");
-    a.style.display = 'none';
-    b.style.display = 'none';
-    c.style.display = 'block';
-    d.style.display = 'none';
-
-}
-
-function showRepoDiv() {
-    var a = document.getElementById("newStudentsDiv");
-    var b = document.getElementById("manageStudentDiv");
-    var c = document.getElementById("manageTutorialDiv");
-    var d = document.getElementById("manageRepoDiv");
-    a.style.display = 'none';
-    b.style.display = 'none';
-    c.style.display = 'none';
-    d.style.display = 'block';
-
-}
-// END : teachers dashboard functions
-
-// START : students dashboard functions
-function joinClassDiv() {
-    var a = document.getElementById("joinClass");
-    var b = document.getElementById("viewClass");
-    var c = document.getElementById("viewTutorials");
-    var d = document.getElementById("viewAssignments");
-    a.style.display = 'block';
-    b.style.display = 'none';
-    c.style.display = 'none';
-    d.style.display = 'none';
-}
-
-function viewClassDiv() {
-    var a = document.getElementById("joinClass");
-    var b = document.getElementById("viewClass");
-    var c = document.getElementById("viewTutorials");
-    var d = document.getElementById("viewAssignments");
-    a.style.display = 'none';
-    b.style.display = 'block';
-    c.style.display = 'none';
-    d.style.display = 'none';
-}
-
-function viewTutorialDiv() {
-    var a = document.getElementById("joinClass");
-    var b = document.getElementById("viewClass");
-    var c = document.getElementById("viewTutorials");
-    var d = document.getElementById("viewAssignments");
-    a.style.display = 'none';
-    b.style.display = 'none';
-    c.style.display = 'block';
-    d.style.display = 'none';
-}
-
-function viewAssignmentsDiv() {
-    var a = document.getElementById("joinClass");
-    var b = document.getElementById("viewClass");
-    var c = document.getElementById("viewTutorials");
-    var d = document.getElementById("viewAssignments");
-    a.style.display = 'none';
-    b.style.display = 'none';
-    c.style.display = 'none';
-    d.style.display = 'block';
-}
-
-function moduleProfName() {
-    var profname = document.getElementById('postUserName').innerHTML;
-    var formprof = document.getElementById('moduleprofessor');
-    formprof.value = profname;
-}
-
-function signUp() {
-    var profname = document.getElementById('postUserName').innerHTML;
-    var formprof = document.getElementById('classForm');
-    formprof.value = profname;
-}
-
-function showCreateDiv() {
-    var a = document.getElementById('create');
-    var b = document.getElementById('manageTeach');
-    var c = document.getElementById('manageStudents');
-
-    a.style.display = 'block';
-    b.style.display = 'none';
-    c.style.display = 'none';
-
-}
-
-function manageTeachDiv() {
-    var a = document.getElementById('create');
-    var b = document.getElementById('manageTeach');
-    var c = document.getElementById('manageStudents');
-
-    a.style.display = 'none';
-    b.style.display = 'block';
-    c.style.display = 'none';
-
-}
-
-function manageStudentDiv() {
-    var a = document.getElementById('create');
-    var b = document.getElementById('manageTeach');
-    var c = document.getElementById('manageStudents');
-
-    a.style.display = 'none';
-    b.style.display = 'none';
-    c.style.display = 'block';
-
-}
-
-function uploadAssignment() {
-    var a = document.getElementById('upload');
-    var b = document.getElementById('view');
-
-    a.style.display = 'block';
-    b.style.display = 'none';
-}
-
-function viewAssignments() {
-    var a = document.getElementById('upload');
-    var b = document.getElementById('view');
-
-    a.style.display = 'none';
-    b.style.display = 'block';
+    document.getElementById('modalTitle').innerHTML = contentArray.cells[3].innerHTML;
+    document.getElementById('modalDescription').innerHTML = contentArray.cells[6].innerHTML;
+    document.getElementById('modalText').innerHTML = contentArray.cells[5].innerHTML;
 }

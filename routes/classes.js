@@ -123,8 +123,8 @@ router.post('/test', function (req, res) {
 
     req.flash('success_msg', 'Successfully uploaded assignment');
 
-    res.redirect('/users/dashboard');   
-        
+    res.redirect('/users/dashboard');
+
 });
 
 
@@ -244,6 +244,15 @@ router.get('/enrolledin', function (req, res) {
         });
 
 
+});
+
+router.post('/updateAssignment', function (req, res) {
+    var username = req.body.username;
+    var title = req.body.title;
+    var description = req.body.description;
+    var newText = req.body.text;
+    //This will update the text in Mongo to include the changes the teacher has made
+    var updating = Assignment.findAndUpdateAssignment(username, title, description, newText);
 });
 
 

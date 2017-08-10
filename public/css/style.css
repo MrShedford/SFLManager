@@ -186,3 +186,84 @@ footer {
 ::-webkit-scrollbar { 
     display: none; 
 }
+
+/* This is the css styling for clauses */
+p.small {
+    line-height: 150%;
+}
+
+p.big {
+    line-height: 200%;
+}
+
+.superscript {
+    position: relative;
+    bottom: 0.5em;
+    color: red;
+    font-size: 0.8em;
+}
+
+.subscript {
+    position: relative;
+    top: 0.3em;
+    color: blue;
+    font-size: 0.5em;
+    font-variant: normal;
+}
+/* This is the css for the keypad clause tool */
+.keypadControl { /* style some nice buttons */
+  width: 50%; height: 30px; padding: 2px; 
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px; text-align: center; text-decoration: none;
+  border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;
+  border: 1px solid #CACACA;
+  color: black; background-color: #eee; 
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+    
+}
+
+.keypadControl:hover {
+  background-color: #111; color: #eee; 
+}
+
+.keypadButton { /* style some nice buttons */
+  width: 30px; height: 30px; padding: 2px; 
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 16px; text-align: center; text-decoration: none;
+  border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;
+  border: 1px solid #444;
+  color: #fff; background-color: #555; 
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+    display:inline-table;
+}
+
+.keypadButton:hover {
+  background-color: #ccc; color: #111; 
+}
+
+#keypadDisplay {
+  -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  background-color: #EAEAEA; cursor: cell;
+  border: 1px solid #222; color: #444; font-size: 12pt; text-align: center;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif; text-decoration: none;
+  padding: 4px; width: 150px;
+    float:left;
+    width:100px;
+}
+
+#keypadLayout {
+  margin: 0 auto;
+}
+
+#keypadWrapper {
+    border-radius: 10px; border: 1px solid #111; padding: 5px; 
+    background-color: #aaa;
+    width: 50%; height: 210px; margin: auto;
+    float: left;
+    position:relative;
+    left:67%;
+}

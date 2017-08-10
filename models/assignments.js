@@ -40,3 +40,13 @@ module.exports.findByCreator = function(creator) {
     var query = ClassAssignments.find({creator:creator}).lean().exec();
     return query;
 }
+
+module.exports.findAndUpdateAssignment = function(username, title, description, text) {
+    var query = {creator:username,title:title,description:description};
+    var updating = ClassAssignments.findOneAndUpdate(query, {$set:{text:text}},{new:true}, function(err, doc) {
+        if(err){
+            console.log("Something went wrong updating the data");
+        }
+        console.log(doc);//This means everything works perfectly
+    })
+}

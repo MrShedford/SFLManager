@@ -9,6 +9,7 @@
     "author": "Se�n Comerford",
     "license": "ISC",
     "dependencies": {
+        "angular-sanitize": "^1.6.5",
         "assert": "^1.4.1",
         "asserts": "^4.0.2",
         "bcryptjs": "*",
