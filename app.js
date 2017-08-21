@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
+var jsonfile = require('jsonfile');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -15,11 +16,16 @@ mongoose.connect('mongodc://localhost/authentication');
 var db = mongoose.connection;
 
 
+
+
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var classes = require('./routes/classes');
 //initialise app 
 var app = express();
+
+
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -91,6 +97,7 @@ app.post('/', function (req, res) {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/classes', classes);
+
 
 
 // Set Port

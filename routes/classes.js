@@ -127,6 +127,19 @@ router.post('/test', function (req, res) {
 
 });
 
+router.get('/assignments', function (req, res) {
+    var student = req.query.student;
+    var query = ClassStore.findAssignmentsByStudent(student);
+    query.then((user) => {
+            res.json(user);
+        })
+        .catch((err) => {
+            res.send("error found");
+        });
+
+
+});
+
 
 
 //Teacher registers a new class to be stored online

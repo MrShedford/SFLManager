@@ -137,7 +137,7 @@ $(document).ready(function () {
         var clauseTitle = document.getElementById('modalTitle').innerHTML;
         var clauseDescription = document.getElementById('modalDescription').innerHTML;
         var clauseText = document.getElementById('modalText').innerHTML;
-        
+
         $.ajax({
             url: "http://localhost:3000/classes/updateAssignment",
             type: "post",
@@ -150,8 +150,8 @@ $(document).ready(function () {
             },
             cache: false,
             complete: function () {
-              console.log("complete");  
-            }, 
+                console.log("complete");
+            },
             success: function () {
                 alert("Assignment Updated");
             },
@@ -185,6 +185,16 @@ function modalClauses(x) {
     //alert(table.rows[index].cells[3].innerText);
     var contentArray = table.rows[index];
 
+    document.getElementById('modalTitle').innerHTML = contentArray.cells[3].innerHTML;
+    document.getElementById('modalDescription').innerHTML = contentArray.cells[6].innerHTML;
+    document.getElementById('modalText').innerHTML = contentArray.cells[5].innerHTML;
+}
+
+function modalStudentAssignment(x) {
+    var index = x.rowIndex;
+    var table = document.getElementById('assignmentsTable');
+    var contentArray = table.rows[index];
+    console.log(index + " " + contentArray)
     document.getElementById('modalTitle').innerHTML = contentArray.cells[3].innerHTML;
     document.getElementById('modalDescription').innerHTML = contentArray.cells[6].innerHTML;
     document.getElementById('modalText').innerHTML = contentArray.cells[5].innerHTML;
