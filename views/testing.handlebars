@@ -49,45 +49,6 @@
 <script src="/js/bootstrap.js"></script>
 <script src="/js/functions.js"></script>
 
-<script src="/js/jquery.js">
-
-
-</script>
-
-<!-- The following line of code should be uncommented for use with electron in generating desktop application -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script> -->
-
-<script src="/js/annotator.js">
-
-
-</script>
-<script src="/js/highlighter.js">
-
-
-</script>
-<script src="/js/rainbow-custom.min.js"></script>
-
-<script src="/js/raphael.js">
-    // Treant related
-
-</script>
-<script src="/js/Treant.js">
-    // Treant related
-
-</script>
-<script src="/js/js.cookie.js"></script>
-
-<script src="js/taggle.min.js"></script>
-<script src="/js/jquery-ui.js">
-
-
-</script>
-
-<script src="/js/main.js"></script>
-
-<script type="text/coffeescript">
-    # Attept at error handling for touch devices. window.onerror = (msg, file, line) -> alert(msg + ' ' + file + ' ' + line) jQuery.ajaxSetup async: false modules = jQuery.trim """ touch touch/utils touch/editor touch/viewer """ modules = modules.split(/\s+/) run = (file, source) -> filename = file.replace /coffee$/, "js" compiled = "#{CoffeeScript.compile(source)}\n//@ sourceURL=#{filename}" eval(compiled) sources = ("./src/#{script}.coffee" for script in modules) requests = jQuery.map sources, (script) -> jQuery.get script, jQuery.proxy(run, this, script) jQuery.when.apply(jQuery, requests).done -> jQuery("#content").annotator().annotator('addPlugin', 'Touch', { force: location.search.indexOf('force') > -1, useHighlighter: location.search.indexOf('highlighter') > -1 }) window.annotator = jQuery("#content").data('annotator')
-</script>
 
 
 <script src="https://code.angularjs.org/1.5.2/angular.js"></script>
