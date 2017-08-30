@@ -1,12 +1,12 @@
 html {
   background: url(/assets/images/projects/taggle/bg.png) repeat; }
 
-h1, h2, h3, h4, h5, h6 {
+/*h1, h2, h3, h4, h5, h6 {
   text-shadow: 1px 1px 1px #fff;
   color: #000;
   font-weight: bold;
   line-height: 1.5;
-  margin: 0; }
+  margin: 0; }*/
 
 pre {
   border-radius: 3px;
@@ -26,7 +26,7 @@ p a:hover {
   background: #990033;
   transition: all .25s; }
 
-.btn {
+/*.btn {
   background: #990033;
   padding: 12px 30px;
   border-radius: 3px;
@@ -40,7 +40,7 @@ p a:hover {
   .btn:active {
     top: 1px; }
   .btn:last-child {
-    margin-right: 0; }
+    margin-right: 0; }*/
 
 ::-moz-selection {
   background: #990033;

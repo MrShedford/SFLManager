@@ -162,6 +162,8 @@ $(document).ready(function () {
         });
         alert("Assignment Updated");
     });
+
+
 });
 
 // START : Loading username to the dashboard after login 
@@ -190,6 +192,18 @@ function modalClauses(x) {
     document.getElementById('modalText').innerHTML = contentArray.cells[5].innerHTML;
 }
 
+function modalAnnotations(x) {
+    var index = x.rowIndex;
+    var table = document.getElementById('assignmentsTable');
+    //alert(table.rows[index].cells[3].innerText);
+    var contentArray = table.rows[index];
+
+    document.getElementById('annotationTitle').innerHTML = contentArray.cells[3].innerHTML;
+    document.getElementById('annotationDescription').innerHTML = contentArray.cells[6].innerHTML;
+    document.getElementById('annotationText').innerHTML = contentArray.cells[5].innerHTML;
+    annotatateToolStart();
+}
+
 function modalStudentAssignment(x) {
     var index = x.rowIndex;
     var table = document.getElementById('assignmentsTable');
@@ -198,4 +212,11 @@ function modalStudentAssignment(x) {
     document.getElementById('modalTitle').innerHTML = contentArray.cells[3].innerHTML;
     document.getElementById('modalDescription').innerHTML = contentArray.cells[6].innerHTML;
     document.getElementById('modalText').innerHTML = contentArray.cells[5].innerHTML;
+}
+
+var obj; //used to store annotation instance 
+
+function annotatateToolStart() {
+    var ann = new Annotator(document.getElementById('annotationText'));
+    ann.setupPlugins('addPlugin', 'fileStorage'); // Add Storage Plugin
 }

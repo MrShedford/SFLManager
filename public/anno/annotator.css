@@ -4,7 +4,7 @@
 .ui-dialog { z-index: 1001 !important ;}
 .ui-front { z-index: 1000 !important; }
 
-table, th, td {
+/*table, th, td {
     border: 1px solid black;
     text-align: center;
     font-family: arial;
@@ -12,7 +12,7 @@ table, th, td {
 }
 th, td {
     padding: 15px;
-}
+}*/
 
 .annotator-notice,
 .annotator-filter *,
@@ -105,7 +105,7 @@ span:hover { /*This is auxillary:custom added css*/
 -------------------------------------------------------------------- */
 
 .annotator-adder {
-	margin-top: -48px;
+	margin-top: -90px;
 	margin-left: -24px;
 	width: 48px;
 	height: 48px;

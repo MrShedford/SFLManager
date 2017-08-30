@@ -53,13 +53,7 @@
     });
 
 </script>
-<script src="/js/bootstrap.js"></script>
-<script src="/js/functions.js"></script>
 
-
-
-<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
 
 
 <div ng-app="customInterpolationApp">
@@ -182,8 +176,9 @@
                                             <th>Title</th>
                                             <th>Date</th>
                                             <th>Edit Clauses</th>
+                                            <th>Correct Annotation</th>
                                         </tr>
-                                        <tr ng-repeat="x in assignments" onclick="modalClauses(this)">
+                                        <tr ng-repeat="x in assignments" onclick="modalClauses(this);modalAnnotations(this)">
                                             <td>//$index +1//</td>
                                             <td>//x.module//</td>
                                             <td>//x.creator//</td>
@@ -192,6 +187,7 @@
                                             <td ng-bind-html="x.text" style="display:none;"></td>
                                             <td ng-bind-html="x.description" style="display:none;"></td>
                                             <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Edit Clauses and Text</button></td>
+                                            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myAnnotations">Edit Annotations</button></td>
                                         </tr>
                                     </table>
 
@@ -251,6 +247,29 @@
 
                                         </div>
                                     </div>
+                                    <div id="myAnnotations" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 id="annotationTitle" class="modal-title" style="text-align:center;">Heyo</h4><br>
+                                                    <h5 id="annotationDescription" class="modal-title" style="text-align:center;"></h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="annotationText" style="font-size:150%"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" id="uploadAnnotation">Upload Data</button>
+                                                    <button type="button" class="btn btn-default" id="saveClause">Save</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -295,44 +314,55 @@
             </div>
         </div>
     </div>
-    <script src="/anno/jquery.js">
-
-
-    </script>
-
-    <!-- The following line of code should be uncommented for use with electron in generating desktop application -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script> -->
-
-    <script src="/anno/annotator.js">
-
-
-    </script>
-    <script src="/anno/highlighter.js">
-
-
-    </script>
-    <script src="/anno/rainbow-custom.min.js"></script>
-
-    <script src="/anno/raphael.js">
-        // Treant related
-
-    </script>
-    <script src="/anno/Treant.js">
-        // Treant related
-
-    </script>
-    <script src="/anno/js.cookie.js"></script>
-
-    <script src="/anno/taggle.min.js"></script>
-    <script src="/anno/jquery-ui.js">
-
-
-    </script>
-
-    <script src="/anno/main.js"></script>
-
-    <script type="text/coffeescript">
-        # Attept at error handling for touch devices. window.onerror = (msg, file, line) -> alert(msg + ' ' + file + ' ' + line) jQuery.ajaxSetup async: false modules = jQuery.trim """ touch touch/utils touch/editor touch/viewer """ modules = modules.split(/\s+/) run = (file, source) -> filename = file.replace /coffee$/, "js" compiled = "#{CoffeeScript.compile(source)}\n//@ sourceURL=#{filename}" eval(compiled) sources = ("./src/#{script}.coffee" for script in modules) requests = jQuery.map sources, (script) -> jQuery.get script, jQuery.proxy(run, this, script) jQuery.when.apply(jQuery, requests).done -> jQuery("#content").annotator().annotator('addPlugin', 'Touch', { force: location.search.indexOf('force') > -1, useHighlighter: location.search.indexOf('highlighter') > -1 }) window.annotator = jQuery("#content").data('annotator')
-    </script>
 
 </div>
+
+<script src="/js/bootstrap.js"></script>
+<script src="/js/functions.js"></script>
+
+
+
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
+
+
+
+<script src="/anno/jquery.js">
+
+
+</script>
+
+<!-- The following line of code should be uncommented for use with electron in generating desktop application -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script> -->
+
+<script src="/anno/annotator.js">
+
+
+</script>
+<script src="/anno/highlighter.js">
+
+
+</script>
+<script src="/anno/rainbow-custom.min.js"></script>
+
+<script src="/anno/raphael.js">
+    // Treant related
+
+</script>
+<script src="/anno/Treant.js">
+    // Treant related
+
+</script>
+<script src="/anno/js.cookie.js"></script>
+
+<script src="/anno/taggle.min.js"></script>
+<script src="/anno/jquery-ui.js">
+
+
+</script>
+
+<script src="/anno/main.js"></script>
+
+<script type="text/coffeescript">
+    # Attept at error handling for touch devices. window.onerror = (msg, file, line) -> alert(msg + ' ' + file + ' ' + line) jQuery.ajaxSetup async: false modules = jQuery.trim """ touch touch/utils touch/editor touch/viewer """ modules = modules.split(/\s+/) run = (file, source) -> filename = file.replace /coffee$/, "js" compiled = "#{CoffeeScript.compile(source)}\n//@ sourceURL=#{filename}" eval(compiled) sources = ("./src/#{script}.coffee" for script in modules) requests = jQuery.map sources, (script) -> jQuery.get script, jQuery.proxy(run, this, script) jQuery.when.apply(jQuery, requests).done -> jQuery("#content").annotator().annotator('addPlugin', 'Touch', { force: location.search.indexOf('force') > -1, useHighlighter: location.search.indexOf('highlighter') > -1 }) window.annotator = jQuery("#content").data('annotator')
+</script>
