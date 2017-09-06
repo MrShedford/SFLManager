@@ -26,6 +26,9 @@ var ClassAssignmentsSchema = mongoose.Schema({
     },
     text: {
         type: String
+    },
+    submissions: {
+        type: String
     }
 });
 
@@ -49,4 +52,15 @@ module.exports.findAndUpdateAssignment = function(username, title, description, 
         }
         console.log(doc);//This means everything works perfectly
     })
+}
+
+module.exports.findAndSubmitAttempt = function(annotationDate, annotationModule, annotationTitle, date, submission) {
+    var query = {date:annotationDate,title:annotationTitle,module:annotationModule};     //this is the find query for the update. It'll search for the module and then append the student submission to it
+    var updating = ClassAssignments.findOneAndUpdate(query, {$set:{text:text}},{new:true}, function(err, doc) {
+        if(err){
+            console.log("Something went wrong updating the data");
+        }
+        console.log(doc);//This means everything works perfectly
+    })
+    return query;
 }

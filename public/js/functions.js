@@ -163,6 +163,8 @@ $(document).ready(function () {
         alert("Assignment Updated");
     });
 
+    var obj; //used to store annotation instance
+
 
 });
 
@@ -201,7 +203,11 @@ function modalAnnotations(x) {
     document.getElementById('annotationTitle').innerHTML = contentArray.cells[3].innerHTML;
     document.getElementById('annotationDescription').innerHTML = contentArray.cells[6].innerHTML;
     document.getElementById('annotationText').innerHTML = contentArray.cells[5].innerHTML;
-    annotatateToolStart();
+
+    document.getElementById('annotationTitle').innerHTML = contentArray.cells[1].innerHTML;
+    document.getElementById('annotationDate').innerHTML = contentArray.cells[2].innerHTML;
+    document.getElementById('annotationModule').innerHTML = contentArray.cells[4].innerHTML;
+    annotatateToolStart();//this will start annotator.js in CM project
 }
 
 function modalStudentAssignment(x) {
@@ -212,11 +218,4 @@ function modalStudentAssignment(x) {
     document.getElementById('modalTitle').innerHTML = contentArray.cells[3].innerHTML;
     document.getElementById('modalDescription').innerHTML = contentArray.cells[6].innerHTML;
     document.getElementById('modalText').innerHTML = contentArray.cells[5].innerHTML;
-}
-
-var obj; //used to store annotation instance 
-
-function annotatateToolStart() {
-    var ann = new Annotator(document.getElementById('annotationText'));
-    ann.setupPlugins('addPlugin', 'fileStorage'); // Add Storage Plugin
 }

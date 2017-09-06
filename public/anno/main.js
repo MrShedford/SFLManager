@@ -50,7 +50,7 @@
 
       ann.annotator('addPlugin', 'fileStorage'); // Add Storage Plugin
       ann2.annotator('addPlugin', 'fileStorage');
-      
+
       var data = obj;
       if (data == undefined) {
 
@@ -90,11 +90,11 @@
       console.log("Successful Load");
   }
 
-  $("#genNew").click(function () {
+  $("#genNewAnn").click(function () {
 
       obj = new Array();
       var ann2 = $("#content2").annotator();
-      var ann = $("#content").annotator(); //Assign container to hold annotator content  
+      var ann = $("#annotationText").annotator(); //Assign container to hold annotator content  
 
       ann.annotator('addPlugin', 'fileStorage'); // Add Storage Plugin
       ann2.annotator('addPlugin', 'fileStorage');
@@ -140,8 +140,42 @@
       var dateTime = '(' + date + ' ' + time + ')';
 
       dlAnchorElem.setAttribute("download", "annotationData" + dateTime + ".json");
-      console.log(JSON.stringify(obj));
-      dlAnchorElem.click();
+      // console.log(JSON.stringify(obj));
+      // dlAnchorElem.click(); //this will let you download the new data 
+
+      //Send front-end data back to Express
+      var assignmentModule =  document.getElementById('annotationModule').innerText; 
+      var assignmentDate =  document.getElementById('annotationDate').innerText; 
+      var assignmentTitle =  document.getElementById('annotationTitle').innerText; 
+      var studentID =  document.getElementById('postUserName').innerText;
+      var submission = JSON.stringify(obj); // this is the annotation data that the user has inputted
+      $.ajax({
+          url: "http://localhost:3000/classes/saveSubmission",
+          type: "post",
+          dataType: "json",
+          data: {
+              date: date,
+              submission: submission,
+              assignmentModule: assignmentModule,
+              assignmentDate: assignmentDate,
+              assignmentTitle: assignmentTitle,
+              studentID : studentID
+          },
+          cache: false,
+          complete: function () {
+              console.log("complete");
+          },
+          success: function () {
+              alert("Assignment Attempt Noted");
+          },
+          error: function () {
+              console.log("Assignment Saving Failure");
+          }
+
+      });
+
+      console.log(submission);
+
   });
 
 
