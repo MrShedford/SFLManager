@@ -36,7 +36,14 @@ var ClassAssignmentsSchema = mongoose.Schema({
     text: {
         type: String
     },
-    submissions: [SubmissionSchema]
+    submissions: {
+        name: {
+            type: String
+        },
+        attempt:{
+            type:String
+        }
+    }
 });
 
 var ClassAssignments = module.exports = mongoose.model('ClassAssignments', ClassAssignmentsSchema);
@@ -75,18 +82,16 @@ module.exports.findAndUpdateAssignment = function (username, title, description,
     })
 }
 
-module.exports.findAndSubmitAttempt = function (annotationDate, annotationModule, annotationTitle, dateOfAnno, submission, studentID) {
+module.exports.findAndSubmitAttempt = function (annotationDate, annotationModule, annotationTitle, dateTime, submission, studentID) {
     var query = {
         date: annotationDate,
         title: annotationTitle,
         module: annotationModule
     }; //this is the find query for the update. It'll search for the module and then append the student submission to it
     var updating = ClassAssignments.findOneAndUpdate(query, {
-            "$push": {
-                "submissions": {
-                    "name": studentID,
-                    "attempt": submission
-                }
+            "$addToSet": {
+                    "submissions": studentID,
+                    "submissions": submission
             }
         }, {
             new: true
@@ -96,6 +101,6 @@ module.exports.findAndSubmitAttempt = function (annotationDate, annotationModule
                 console.log("Something went wrong updating the data");
                 console.log(err);
             }
-            console.log(doc); //This means everything works perfectly
+            console.log("It made some sort of a post to MongoDB"); //This means everything works perfectly
         });
 }

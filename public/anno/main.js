@@ -151,37 +151,37 @@
       var submission = JSON.stringify(obj); // this is the annotation data that the user has inputted
 
       
-      console.log(submission);
-      console.log(assignmentModule);
-      console.log(assignmentTitle);
-      console.log(assignmentDate);
-      console.log(studentID);
-      console.log(dateOfAnno);
-//      
-//      $.ajax({
-//          url: "http://localhost:3000/classes/saveSubmission",
-//          type: "post",
-//          dataType: "json",
-//          data: {
-//              submission: submission,
-//              assignmentModule: assignmentModule,
-//              assignmentDate: assignmentDate,
-//              assignmentTitle: assignmentTitle,
-//              studentID: studentID,
-//              dateOfAnno: dateOfAnno
-//          },
-//          cache: false,
-//          complete: function () {
-//              console.log("complete");
-//          },
-//          success: function () {
-//              alert("Assignment Attempt Noted");
-//          },
-//          error: function () {
-//              console.log("Assignment Saving Failure");
-//          }
-//
-//      });
+      console.log("submission: " + submission);
+      console.log("module: " + assignmentModule);
+      console.log("title: " + assignmentTitle);
+      console.log("date: " + assignmentDate);
+      console.log("student: " + studentID);
+      console.log("submittedAt: " + dateTime);
+      
+      $.ajax({
+          url: "http://localhost:3000/classes/saveSubmission",
+          type: "post",
+          dataType: "json",
+          data: {
+              submission: submission,
+              assignmentModule: assignmentModule,
+              assignmentDate: assignmentDate,
+              assignmentTitle: assignmentTitle,
+              studentID: studentID,
+              dateTime: dateTime
+          },
+          cache: false,
+          complete: function () {
+              console.log("complete");
+          },
+          success: function () {
+              alert("Assignment Attempt Noted");
+          },
+          error: function () {
+              console.log("Assignment Saving Failure");
+          }
+
+      });
 
   });
 

@@ -204,9 +204,9 @@ function modalAnnotations(x) {
     document.getElementById('annotationDescription').innerHTML = contentArray.cells[6].innerHTML;
     document.getElementById('annotationText').innerHTML = contentArray.cells[5].innerHTML;
 
-    document.getElementById('annotationTitle').innerHTML = contentArray.cells[1].innerHTML;
-    document.getElementById('annotationDate').innerHTML = contentArray.cells[2].innerHTML;
-    document.getElementById('annotationModule').innerHTML = contentArray.cells[4].innerHTML;
+    document.getElementById('annotationTitle').innerHTML = contentArray.cells[3].innerHTML;
+    document.getElementById('annotationDate').innerHTML = contentArray.cells[4].innerHTML;
+    document.getElementById('annotationModule').innerHTML = contentArray.cells[1].innerHTML;
     annotatateToolStart();//this will start annotator.js in CM project
 }
 
