@@ -200,21 +200,25 @@ router.post('/updateAssignment', function (req, res) {
     var description = req.body.description;
     var newText = req.body.text;
     //This will update the text in Mongo to include the changes the teacher has made
-    var updating = Assignment.findAndUpdateAssignment(u sername, title, description, newText);
+    var updating = Assignment.findAndUpdateAssignment(username, title, description, newText);
 });
 
 router.post('/saveSubmission', function (req, res) {
-    console.log("Hello");
-    var submission = req.body.submission;//annotation data
-    var date = req.body.date;//annotation date
+    var submission = req.body.submission; //annotation data
+    var dateOfAnno = req.body.dateOfAnno; //annotation date
     var annotationTitle = req.body.assignmentTitle;
-    var annotationDate = req.body.assignmentDate;
+    var studentID = req.body.assignmentDate;
     var annotationModule = req.body.assignmentModule;
     var studentID = req.body.studentID;
-    
+    console.log(req.body);
+//    console.log("annotation date: " + annotationDate);
+//    console.log("date of annaotation: " +dateOfAnno);
+//    console.log("Annotation Title: " + annotationTitle);
+//    console.log("Annotation Module:" + annotationModule);
+//    console.log("StudentID: " + studentID);
     //seach for the assignment and update it with the current submission
-    var submitAttempt = Assignment.findAndSubmitAttempt(annotationDate, annotationModule, annotationTitle, date, submission);
-    
+    var submitAttempt = Assignment.findAndSubmitAttempt(annotationDate, annotationModule, annotationTitle, dateOfAnno, submission, studentID);
+
 });
 
 

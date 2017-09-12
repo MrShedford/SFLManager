@@ -135,46 +135,53 @@
       dlAnchorElem.setAttribute("target", "_blank");
 
       var today = new Date();
-      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      var dateOfAnno = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       var time = today.getHours() + "-" + today.getMinutes();
-      var dateTime = '(' + date + ' ' + time + ')';
+      var dateTime = '(' + dateOfAnno + ' ' + time + ')';
 
       dlAnchorElem.setAttribute("download", "annotationData" + dateTime + ".json");
       // console.log(JSON.stringify(obj));
       // dlAnchorElem.click(); //this will let you download the new data 
 
       //Send front-end data back to Express
-      var assignmentModule =  document.getElementById('annotationModule').innerText; 
-      var assignmentDate =  document.getElementById('annotationDate').innerText; 
-      var assignmentTitle =  document.getElementById('annotationTitle').innerText; 
-      var studentID =  document.getElementById('postUserName').innerText;
+      var assignmentModule = document.getElementById('annotationModule').innerText;
+      var assignmentDate = document.getElementById('annotationDate').innerText;
+      var assignmentTitle = document.getElementById('annotationTitle').innerText;
+      var studentID = document.getElementById('postUserName').innerText;
       var submission = JSON.stringify(obj); // this is the annotation data that the user has inputted
-      $.ajax({
-          url: "http://localhost:3000/classes/saveSubmission",
-          type: "post",
-          dataType: "json",
-          data: {
-              date: date,
-              submission: submission,
-              assignmentModule: assignmentModule,
-              assignmentDate: assignmentDate,
-              assignmentTitle: assignmentTitle,
-              studentID : studentID
-          },
-          cache: false,
-          complete: function () {
-              console.log("complete");
-          },
-          success: function () {
-              alert("Assignment Attempt Noted");
-          },
-          error: function () {
-              console.log("Assignment Saving Failure");
-          }
 
-      });
-
+      
       console.log(submission);
+      console.log(assignmentModule);
+      console.log(assignmentTitle);
+      console.log(assignmentDate);
+      console.log(studentID);
+      console.log(dateOfAnno);
+//      
+//      $.ajax({
+//          url: "http://localhost:3000/classes/saveSubmission",
+//          type: "post",
+//          dataType: "json",
+//          data: {
+//              submission: submission,
+//              assignmentModule: assignmentModule,
+//              assignmentDate: assignmentDate,
+//              assignmentTitle: assignmentTitle,
+//              studentID: studentID,
+//              dateOfAnno: dateOfAnno
+//          },
+//          cache: false,
+//          complete: function () {
+//              console.log("complete");
+//          },
+//          success: function () {
+//              alert("Assignment Attempt Noted");
+//          },
+//          error: function () {
+//              console.log("Assignment Saving Failure");
+//          }
+//
+//      });
 
   });
 

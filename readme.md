@@ -55,3 +55,4 @@ This should start the application on `localhost:3000` so open up chrome and type
     * The work here will be creating a seperate box alongside the first modal box that'll display these diagrams.
     * Other than that it'll be making sure the javascript knows the dorrect div id's to put the content into.
     
+## Feature List
