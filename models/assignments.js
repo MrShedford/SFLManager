@@ -42,7 +42,11 @@ var ClassAssignmentsSchema = mongoose.Schema({
         },
         attempt:{
             type:String
+        },
+        submittedAt: {
+            type:String
         }
+        
     }
 });
 
@@ -88,10 +92,14 @@ module.exports.findAndSubmitAttempt = function (annotationDate, annotationModule
         title: annotationTitle,
         module: annotationModule
     }; //this is the find query for the update. It'll search for the module and then append the student submission to it
+    var JSONSubmittionProject = {
+        name:studentID,
+        attempt:submission,
+        submittedAt: dateTime
+    }
     var updating = ClassAssignments.findOneAndUpdate(query, {
             "$addToSet": {
-                    "submissions": studentID,
-                    "submissions": submission
+                    "submissions": JSONSubmittionProject
             }
         }, {
             new: true
@@ -101,6 +109,6 @@ module.exports.findAndSubmitAttempt = function (annotationDate, annotationModule
                 console.log("Something went wrong updating the data");
                 console.log(err);
             }
-            console.log("It made some sort of a post to MongoDB"); //This means everything works perfectly
+            console.log("Assignment Submitted"); //This means everything works perfectly
         });
 }

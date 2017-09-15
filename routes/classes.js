@@ -210,12 +210,7 @@ router.post('/saveSubmission', function (req, res) {
     var annotationDate = req.body.assignmentDate;
     var annotationModule = req.body.assignmentModule;
     var studentID = req.body.studentID;
-    
-//    console.log("annotation created on: " + dateTime);
-//    console.log("date of annaotation: " +annotationDate);
-//    console.log("Annotation Title: " + annotationTitle);
-//    console.log("Annotation Module:" + annotationModule);
-//    console.log("StudentID: " + studentID);
+
     //seach for the assignment and update it with the current submission
     var submitAttempt = Assignment.findAndSubmitAttempt(annotationDate, annotationModule, annotationTitle, dateTime, submission, studentID);
 
